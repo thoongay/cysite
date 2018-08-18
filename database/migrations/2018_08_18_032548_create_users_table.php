@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
@@ -14,11 +14,18 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+
+            $permissionLen = config('app.admin.permissionLen');
+
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('user', 100);
+            $table->string('password', 64)->comment('60 char is enough.');
+            $table->string('name', 100);
+
+            // 20 char of zero or one
+            $table->string('permission', $permissionLen)
+                ->comment('20 char of zero or one');
+
             $table->timestamps();
         });
     }
