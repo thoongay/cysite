@@ -16,6 +16,40 @@ class User
     #endregion
 
     #region public method
+    public static function GetReadablePermissions($permissionStr)
+    {
+        $perms = [];
+        try {
+            $perms = self::PermissionStr2Array($permissionStr);
+        } catch (\Exception $e) {}
+
+        return implode(' | ', $perms);
+    }
+
+    public static function GetAllPermissions()
+    {
+        return $_permissions;
+    }
+
+    public static function VerifyPermissions($permString, $perms)
+    {
+        try {
+            if (is_string($perms)) {
+                return self::VerifyPermission($permString, $perms);
+            }
+
+            if (is_array($perms)) {
+                foreach ($perms as $perm) {
+                    if (!(self::VerifyPermission($permString, $perm))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 
     public static function PermissionStr2Array($permission)
     {
@@ -91,6 +125,16 @@ class User
     #endregion
 
     #region private method
+    private static function VerifyPermission($permString, $perm)
+    {
+        self::VerifyPermissionLength($permString);
+        $index = self::GetPermissionIndex($perm);
+        if ($permString[$index] == '1') {
+            return true;
+        }
+        return false;
+    }
+
     private static function VerifyPermissionLength($permission)
     {
         if (!is_string($permission)

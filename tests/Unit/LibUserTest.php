@@ -14,6 +14,19 @@ class LibUser extends TestCase
     'ArticleLock' => 2,
      */
 
+    private $_allPerms = ['UserMgr', 'ArticleCreate', 'ArticleLock'];
+
+    public function testVerifyPerm()
+    {
+        $perms = ['UserMgr', 'ArticleCreate'];
+        $permString = User::GenPermissionString($perms);
+        $hasPerm = User::VerifyPermissions($permString, 'UserMgr');
+        $this->assertEquals(true, $hasPerm);
+
+        $hasPerm = User::VerifyPermissions($permString, 'ArticleLock');
+        $this->assertEquals(false, $hasPerm);
+    }
+
     public function testPermissionStr2Array()
     {
         $expect = ['UserMgr', 'ArticleCreate', 'ArticleLock'];
