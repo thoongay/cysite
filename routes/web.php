@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
+    'middleware' => ['throttle:20'],
 ], function () {
     Route::get('captcha', 'LoginCtrl@GetCaptchaImg');
     Route::post('login', 'LoginCtrl@VerifyLogin');
@@ -38,7 +39,9 @@ Route::group([
 
     Route::get('logout', 'LoginCtrl@Logout');
 
-    Route::resource('user', 'UserCtrl');
+    // 修改自己的密码
+    Route::get('user/modify', 'UserCtrl@ShowViewModifyUserInfo');
+    Route::post('user/modify', 'UserCtrl@ModifyUserInfo');
 
     // Route::get('changepassword', function () {
     //     return view('admin.changePassword');
@@ -55,4 +58,14 @@ Route::group([
 
     // Route::post('cat/changeorder', 'Category@changeOrder');
     // Route::post('links/changeorder', 'Links@changeOrder');
+});
+
+Route::group([
+    'middleware' => ['admin.login', 'admin.usermgr'],
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+], function () {
+
+    // 添加/删除/修改用户信息
+    Route::resource('user', 'UserCtrl');
 });

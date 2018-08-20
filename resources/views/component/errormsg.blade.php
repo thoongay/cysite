@@ -1,7 +1,8 @@
 @push('style')
 .div-error-message{
     border-radius: 5px;
-    color:red;width: 80%;
+    padding: 5px 15px;
+    color:darkgoldenrod;
     background: lightgoldenrodyellow;
     margin: 5px auto;
 }

@@ -91,12 +91,4 @@ class LibUser extends TestCase
         $this->assertEquals($expect, $permission);
     }
 
-    public function testPassword()
-    {
-        $salt = "base64: Some random text for testing";
-        $password = "the worst password";
-        $hash = User::HashPassword($password, $salt);
-        $verify = User::VerifyPassword($password, $salt, $hash);
-        $this->assertEquals(true, $verify);
-    }
 }

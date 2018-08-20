@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Lib\UI as LibUI;
-use App\Lib\User as LibUser;
+use App\Lib\Utils;
 use App\Model\DB\Users as DBUsers;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginCtrl extends Controller
 {
@@ -15,12 +16,14 @@ class LoginCtrl extends Controller
 
     public function Logout()
     {
+        Utils::Log('退出登录');
         session(['user' => null]);
         return redirect('admin/login');
     }
 
     public function VerifyLogin(Request $request)
     {
+        $ip = $request->ip();
         $view = 'admin.user.login';
         $post = $request->post();
 
@@ -31,13 +34,12 @@ class LoginCtrl extends Controller
 
         $user = (new DBUsers)->GetInfoByFieldUser($post['user']);
         if ($user === null) {
+            Utils::Log('登录.用户不存在' . $post['user'], $ip);
             return LibUI::errors($view, '用户不存在');
         }
 
-        if (!(LibUser::VerifyPassword(
-            $post['password'],
-            config('app.key'),
-            $user->password))) {
+        if (!(Hash::check($post['password'], $user->password))) {
+            Utils::Log('登录.密码错误' . $post['user'], $ip);
             return LibUI::errors($view, '密码错误');
         }
 
@@ -47,6 +49,7 @@ class LoginCtrl extends Controller
             'perm' => $user->permission,
         ]);
 
+        Utils::Log('登录', $ip);
         return redirect('admin\info');
     }
 

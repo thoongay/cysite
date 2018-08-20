@@ -27,7 +27,7 @@ use App\Lib\User as LibUser;
             <td>
                 <a href="{{url('admin/user/'.$d['id'].'/edit')}}">修改</a>
                 &nbsp;
-                <a href="javascript:;" onclick="DeleteUser({{$d['id']}});" >删除</a>
+                <a href="javascript:;" onclick="Delete({{$d['id']}});" >删除</a>
             </td>
         </tr>
         @endforeach
@@ -38,7 +38,7 @@ use App\Lib\User as LibUser;
 @endsection
 
 @push('script')
-function DeleteUser(id){
+function Delete(id){
     // href="{{url('admin/user/'.$d['id'].'/edit')}}"
     if(confirm('确定删除? id='+id)){
         $.post('{{url("admin/user")}}/'+id,{

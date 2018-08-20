@@ -28,7 +28,7 @@ class User
 
     public static function GetAllPermissions()
     {
-        return $_permissions;
+        return self::$_permissions;
     }
 
     public static function VerifyPermissions($permString, $perms)
@@ -109,23 +109,12 @@ class User
         return $result;
     }
 
-    public static function HashPassword($password, $salt)
+    public static function GetPermisionStrLen()
     {
-        $salted = self::AddSalt($password, $salt);
-        $hash = self::GetSha512($salted);
-        return Hash::make($hash);
+        return config('app.admin.permissionLen');
     }
 
-    public static function VerifyPassword($password, $salt, $hash)
-    {
-        $salted = self::AddSalt($password, $salt);
-        $hashed = self::GetSha512($salted);
-        return Hash::check($hashed, $hash);
-    }
-    #endregion
-
-    #region private method
-    private static function VerifyPermission($permString, $perm)
+    public static function VerifyPermission($permString, $perm)
     {
         self::VerifyPermissionLength($permString);
         $index = self::GetPermissionIndex($perm);
@@ -135,17 +124,21 @@ class User
         return false;
     }
 
+    #endregion
+
+    #region private method
+
     private static function VerifyPermissionLength($permission)
     {
         if (!is_string($permission)
-            || strlen($permission) != config('app.admin.permissionLen')) {
+            || strlen($permission) != self::GetPermisionStrLen()) {
             throw new CustomException\ArgumentException('Argument error.');
         }
     }
 
     private static function GenEmptyPermissionString()
     {
-        return str_repeat("0", config('app.admin.permissionLen'));
+        return str_repeat("0", self::GetPermisionStrLen());
     }
 
     private static function AddPermission(&$curPermission, $newPermission)
@@ -169,11 +162,6 @@ class User
 
         }
         throw new CustomException\KeyNotFoundException('key not found!');
-    }
-
-    private static function AddSalt($password, $salt)
-    {
-        return $password . $salt;
     }
 
     private static function GetSha512($text)

@@ -57,7 +57,7 @@ $userMgr=User::VerifyPermissions($permStr,['UserMgr']);
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> 修改密码</a>
+                        <a href="{{url('admin/user/modify')}}"><i class="fa fa-user fa-fw"></i> 修改密码</a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="{{url('admin/logout')}}"><i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
@@ -81,7 +81,7 @@ $userMgr=User::VerifyPermissions($permStr,['UserMgr']);
                                 <a href="{{url('admin/user/')}}">用户列表</a>
                             </li>
                             <li>
-                                <a href="#">添加用户</a>
+                            <a href="{{url('admin/user/create')}}">添加用户</a>
                             </li>
                         </ul>
                     </li>

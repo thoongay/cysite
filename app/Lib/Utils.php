@@ -4,6 +4,32 @@ namespace App\Lib;
 
 class Utils
 {
+    public static function CopyArray($dict, $fields)
+    {
+        $result = [];
+        foreach ($fields as $field) {
+            $result[$field] = $dict[$field];
+        }
+        return $result;
+    }
+
+    public static function Log($message, $ip = null)
+    {
+        $log = '';
+
+        if ($ip != null) {
+            $log = "IP: $ip ";
+        }
+
+        $user = session('user');
+        if ($user) {
+            $log .= "User: $user ";
+        }
+
+        $log .= "MSG: $message";
+        \Log::info($log);
+    }
+
     public static function GetOSInfo()
     {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
