@@ -3,15 +3,54 @@
 namespace App\Model\DB;
 
 use App\Lib\User as LibUser;
+use App\Lib\Utils;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
 class Users extends Model
 {
 
-    protected $fillable = ['user', 'name', 'password', 'permission'];
+    protected $fillable = ['user', 'name', 'password', 'permission', 'token', 'tkupdate'];
 
     #region public method
+
+    public function Login($user, $updateToken = false)
+    {
+        $token = null;
+
+        // check token update
+        if (LibUser::IsTokenOutOfDate($user->tkupdate)) {
+            Utils::Log('Token need update.');
+            $updateToken = true;
+        }
+
+        if ($updateToken == true) {
+            $token = LibUser::GenToken();
+            $user->token = $token;
+            $user->tkupdate = Utils::Now();
+            $user->update();
+        }
+
+        session([
+            'user' => $user->user,
+            'name' => $user->name,
+            'perm' => $user->permission,
+        ]);
+
+        return $token;
+    }
+
+    public function Logout()
+    {
+        $user = $this->GetInfoByFieldUser(session('user'));
+        if ($user == null) {
+            return;
+        }
+        $user->token = LibUser::GenToken();
+        $user->update();
+        session(['user' => null]);
+    }
+
     public function AddUser($post)
     {
         $user = [];
@@ -24,7 +63,22 @@ class Users extends Model
 
         $user['password'] = Hash::make($post['password']);
 
+        $token = LibUser::GenToken();
+        $user['token'] = $token;
+
+        $user['tkupdate'] = Utils::Now();
         $this->create($user);
+    }
+
+    public function GetAllUsersName()
+    {
+        $users = $this->select(['id', 'name'])->get();
+
+        $names = [];
+        foreach ($users as $user) {
+            $names[$user->id] = $user->name;
+        }
+        return $names;
     }
 
     public function GetAllUsersInfo()
@@ -48,6 +102,11 @@ class Users extends Model
         return $this->where('user', $user)->first();
     }
 
+    public function GetInfoByFieldToken($token)
+    {
+        return $this->where('token', $token)->first();
+    }
+
     public function ResetAdmin()
     {
         $password = config('app.admin.password');
@@ -59,7 +118,10 @@ class Users extends Model
         $admin->permission = LibUser::GenPermissionString([
             'UserMgr',
             'ArticleCreate',
-            'ArticleLock']);
+            'ArticleMgr']);
+
+        $admin->token = LibUser::GenToken();
+        $admin->tkupdate = Utils::Now();
 
         $admin->save();
     }

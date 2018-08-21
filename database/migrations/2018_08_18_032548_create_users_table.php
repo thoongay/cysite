@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('user', 100);
             $table->string('password', 64)->comment('60 char is enough.');
             $table->string('name', 100);
+            $table->string('token', config('app.admin.tokenLen'))->comment('rember user');
+            $table->timestamp('tkupdate')->useCurrent()->comment('token update');
 
             // 20 char of zero or one
             $table->string('permission', $permissionLen)

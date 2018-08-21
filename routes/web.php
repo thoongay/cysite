@@ -42,22 +42,6 @@ Route::group([
     // 修改自己的密码
     Route::get('user/modify', 'UserCtrl@ShowViewModifyUserInfo');
     Route::post('user/modify', 'UserCtrl@ModifyUserInfo');
-
-    // Route::get('changepassword', function () {
-    //     return view('admin.changePassword');
-    // });
-
-    // Route::post('upload', 'Upload@upload');
-
-    // Route::post('changepassword', 'Login@ChangePassword');
-
-    // Route::resource('category', 'Category');
-
-    // Route::resource('article', 'Article');
-    // Route::resource('links', 'Links');
-
-    // Route::post('cat/changeorder', 'Category@changeOrder');
-    // Route::post('links/changeorder', 'Links@changeOrder');
 });
 
 Route::group([
@@ -67,5 +51,36 @@ Route::group([
 ], function () {
 
     // 添加/删除/修改用户信息
-    Route::resource('user', 'UserCtrl');
+    Route::resource('user', 'UserCtrl', ['except' => ['show']]);
+
+});
+
+Route::group([
+    'middleware' => ['admin.login', 'admin.articlemgr'],
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+], function () {
+
+    // 添加/删除文章分类
+    Route::resource('category', 'CategoryCtrl', ['except' => ['show']]);
+
+    // Route::post('upload', 'Upload@upload');
+
+    // Route::resource('article', 'Article');
+    // Route::resource('links', 'Links');
+});
+
+Route::group([
+    'middleware' => ['admin.login', 'admin.articlecreate'],
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+], function () {
+
+    // 添加/删除文章分类
+    Route::resource('article', 'ArticleCtrl');
+
+    // Route::post('upload', 'Upload@upload');
+
+    // Route::resource('article', 'Article');
+    // Route::resource('links', 'Links');
 });

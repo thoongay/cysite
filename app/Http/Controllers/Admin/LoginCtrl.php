@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Lib\UI as LibUI;
+use App\Lib\User as LibUser;
 use App\Lib\Utils;
-use App\Model\DB\Users as DBUsers;
+use App\Model\DB\Users;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,14 +15,14 @@ class LoginCtrl extends Controller
 {
     private $captchaKey = 'loginVerifyCode';
 
-    public function Logout()
+    public function Logout(Users $users)
     {
         Utils::Log('退出登录');
-        session(['user' => null]);
+        $users->Logout();
         return redirect('admin/login');
     }
 
-    public function VerifyLogin(Request $request)
+    public function VerifyLogin(Request $request, Users $users)
     {
         $ip = $request->ip();
         $view = 'admin.user.login';
@@ -32,7 +33,8 @@ class LoginCtrl extends Controller
             return LibUI::errors($view, '验证码错误');
         }
 
-        $user = (new DBUsers)->GetInfoByFieldUser($post['user']);
+        $user = $users->GetInfoByFieldUser($post['user']);
+
         if ($user === null) {
             Utils::Log('登录.用户不存在' . $post['user'], $ip);
             return LibUI::errors($view, '用户不存在');
@@ -43,14 +45,10 @@ class LoginCtrl extends Controller
             return LibUI::errors($view, '密码错误');
         }
 
-        session([
-            'user' => $user->user,
-            'name' => $user->name,
-            'perm' => $user->permission,
-        ]);
+        $token = $users->Login($user, true);
 
         Utils::Log('登录', $ip);
-        return redirect('admin\info');
+        return redirect('admin\info')->withCookie(LibUser::GenTokenCookie($token));
     }
 
     public function GetCaptchaImg()

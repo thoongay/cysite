@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Lib\UI as LibUI;
 use App\Lib\User as LibUser;
-use App\Lib\Utils as LibUtils;
+use App\Lib\Utils;
 use App\Model\DB\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +19,7 @@ class UserCtrl extends Controller
         return view('admin.user.modify');
     }
 
-    public function ModifyUserInfo(Request $request)
+    public function ModifyUserInfo(Request $request, Users $users)
     {
         $post = $request->post();
         $ip = $request->ip();
@@ -39,25 +39,27 @@ class UserCtrl extends Controller
         $validator = Validator::make($post, $rules, $errors);
 
         if ($validator->passes()) {
-            $users = new Users();
-
             $user = $users->GetInfoByFieldUser(session('user'));
 
             if ($user == null) {
-                LibUtils::Log('修改用户密码 - 用户不存在', $ip);
+                Utils::Log('修改用户密码 - 用户不存在', $ip);
                 return back()->withErrors('用户不存在');
             }
 
             if (!Hash::check($post['old_password'], $user->password)) {
-                LibUtils::Log('修改用户密码 - 原密码错误', $ip);
+                Utils::Log('修改用户密码 - 原密码错误', $ip);
                 return back()->withErrors('原密码错误');
             }
 
+            $token = LibUser::GenToken();
             $user->password = Hash::make($post['password']);
+            $user->token = $token;
+            $user->tkupdate = Utils::Now();
 
             $user->update();
 
-            return back()->withErrors('修改成功');
+            return back()->withErrors('修改成功')
+                ->withCookie(LibUser::GenTokenCookie($token));
         }
 
         return back()->withErrors($validator);
@@ -68,9 +70,9 @@ class UserCtrl extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Users $users)
     {
-        $data = (new Users)->GetAllUsersInfo();
+        $data = $users->GetAllUsersInfo();
         return view('admin.user.list', compact('data'));
     }
 
@@ -90,7 +92,7 @@ class UserCtrl extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Users $users)
     {
         $view = 'admin/user/create';
 
@@ -114,15 +116,13 @@ class UserCtrl extends Controller
         $validator = Validator::make($post, $rules, $errors);
 
         if ($validator->passes()) {
-            $users = new Users();
-
             if ($users->IsUserExisted($post['user'], $post['name'])) {
                 return LibUI::errors($view, '已存在相同用户');
             }
 
-            LibUtils::Log('添加用户' . $post['user'], $ip);
+            Utils::Log('添加用户' . $post['user'], $ip);
             $users->AddUser($post);
-            return redirect('admin/user');
+            return back()->withErrors('添加成功');
         }
 
         return back()->withErrors($validator);
@@ -148,7 +148,7 @@ class UserCtrl extends Controller
     public function edit(Users $users, $id)
     {
         $user = $users->where(['id' => $id])->first();
-        $data = LibUtils::CopyArray($user, ['id', 'user', 'name', 'permission']);
+        $data = Utils::CopyArray($user, ['id', 'user', 'name', 'permission']);
 
         return view('admin.user.edit', compact('data'));
     }
@@ -181,7 +181,7 @@ class UserCtrl extends Controller
             $user = $users->where(['id' => $id])->first();
 
             if ($user == null) {
-                LibUtils::Log('修改用户信息 - 用户不存在', $ip);
+                Utils::Log('修改用户信息 - 用户不存在', $ip);
                 return back()->withErrors('用户不存在');
             }
 
@@ -196,7 +196,7 @@ class UserCtrl extends Controller
             $user['name'] = $post['name'];
             $user->update();
 
-            LibUtils::Log('修改用户信息' . $user['id'] . '.' . $user['user'], $ip);
+            Utils::Log('修改用户信息' . $user['id'] . '.' . $user['user'], $ip);
             return back()->withErrors('修改成功');
         }
 
@@ -219,10 +219,10 @@ class UserCtrl extends Controller
 
         if ($result) {
             $msg = ['status' => true, 'msg' => '删除成功'];
-            LibUtils::Log("删除用户$id $user 成功", $ip);
+            Utils::Log("删除用户$id $user 成功", $ip);
         } else {
             $msg = ['status' => false, 'msg' => '删除失败'];
-            LibUtils::Log("删除用户$id $user 失败", $ip);
+            Utils::Log("删除用户$id $user 失败", $ip);
         }
         return $msg;
     }

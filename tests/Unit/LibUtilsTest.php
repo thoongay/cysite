@@ -7,11 +7,16 @@ use Tests\TestCase;
 
 class LibUtilsTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+    public function testHtml2Text()
+    {
+        $htmls = ['<a>hello,</a><b>world!</b>'];
+        $expects = ['hello,WORLD!'];
+
+        for ($i = 0; $i < count($htmls); $i++) {
+            $this->assertEquals($expects[$i], Utils::Html2Text($htmls[$i]));
+        }
+    }
+
     public function testCopyArray()
     {
         $expect = ['a' => 1, 'b' => 2];

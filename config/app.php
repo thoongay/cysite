@@ -7,6 +7,14 @@ return [
         'user' => env('ADMIN_USER', 'admin'),
         'name' => env('ADMIN_Name', 'Administrator'),
         'permissionLen' => env('PERMISSION_LENGTH', 20),
+        'tokenLen' => env('TOKEN_LENGTH', 60),
+        'tokenLifeTime' => env('TOKEN_LIFE_TIME', 60 * 24 * 30 * 3),
+        'tokenUpdateTime' => env('TOKEN_UPDATE_TIME', 60 * 12),
+        'cateNameLength' => env('CATE_NAME_LENGTH', 50),
+        'cateDscrLength' => env('CATE_DSCR_LENGTH', 100),
+        'articleTitleLength' => env('ARTICLE_TITLE_LENGTH', 255),
+        'articleContentLength' => env('ARTICLE_CONTENT_LENGTH', 64000),
+        'articleKeywordLength' => env('ARTICLE_KEYWORD_LENGTH', 255),
     ],
 
     /*

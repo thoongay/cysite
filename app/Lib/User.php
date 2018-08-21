@@ -11,11 +11,45 @@ class User
     private static $_permissions = [
         'UserMgr' => 0,
         'ArticleCreate' => 1,
-        'ArticleLock' => 2,
+        'ArticleMgr' => 2,
     ];
     #endregion
 
     #region public method
+    public static function IsTokenOutOfDate($tkupdate)
+    {
+        $seconds = abs((new \DateTime($tkupdate))->getTimestamp() - (new \DateTime)->getTimestamp());
+        //  debug: Utils::Log('IsTokenOutOfDate seconds:' . $seconds);
+        return $seconds / 60 > config('app.admin.tokenUpdateTime');
+    }
+
+    public static function GenTokenCookie($token)
+    {
+        return cookie('token', $token, config('app.admin.tokenLifeTime'));
+    }
+
+    public static function GetTokenFromCookie($request)
+    {
+        return $request->cookie('token');
+    }
+
+    public static function GenToken($len = null)
+    {
+        $defLen = config('app.admin.tokenLen');
+
+        if ($len == null) {
+            $len = $defLen;
+        }
+
+        $result = date('Ymdhis');
+        $patch = $len - strlen($result);
+        if ($patch <= 0 || $len > $defLen) {
+            throw new CustomException\ArgumentException('Argument out of range!');
+        }
+
+        return $result . str_random($patch);
+    }
+
     public static function GetReadablePermissions($permissionStr)
     {
         $perms = [];

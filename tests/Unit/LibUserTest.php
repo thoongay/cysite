@@ -11,10 +11,17 @@ class LibUser extends TestCase
     /*
     'UserMgr' => 0,
     'ArticleCreate' => 1,
-    'ArticleLock' => 2,
+    'ArticleMgr' => 2,
      */
 
-    private $_allPerms = ['UserMgr', 'ArticleCreate', 'ArticleLock'];
+    private $_allPerms = ['UserMgr', 'ArticleCreate', 'ArticleMgr'];
+
+    public function testGenToken()
+    {
+        $len = 32;
+        $token = User::GenToken($len);
+        $this->assertEquals($len, strlen($token));
+    }
 
     public function testVerifyPerm()
     {
@@ -23,13 +30,13 @@ class LibUser extends TestCase
         $hasPerm = User::VerifyPermissions($permString, 'UserMgr');
         $this->assertEquals(true, $hasPerm);
 
-        $hasPerm = User::VerifyPermissions($permString, 'ArticleLock');
+        $hasPerm = User::VerifyPermissions($permString, 'ArticleMgr');
         $this->assertEquals(false, $hasPerm);
     }
 
     public function testPermissionStr2Array()
     {
-        $expect = ['UserMgr', 'ArticleCreate', 'ArticleLock'];
+        $expect = ['UserMgr', 'ArticleCreate', 'ArticleMgr'];
         $permission = User::GenPermissionString($expect);
         $permArr = User::PermissionStr2Array($permission);
         $this->assertEquals($expect, $permArr);
@@ -59,9 +66,9 @@ class LibUser extends TestCase
         $this->assertEquals($expect, $permission);
 
         $permission = User::GenPermissionString([]);
-        User::AddPermissions($permission, ['UserMgr', 'ArticleCreate', 'ArticleLock']);
+        User::AddPermissions($permission, ['UserMgr', 'ArticleCreate', 'ArticleMgr']);
         User::RemovePermissions($permission, ['ArticleCreate']);
-        $expect = User::GenPermissionString(['UserMgr', 'ArticleLock']);
+        $expect = User::GenPermissionString(['UserMgr', 'ArticleMgr']);
         $this->assertEquals($expect, $permission);
     }
 

@@ -5,6 +5,8 @@
 use App\Lib\User;
 $permStr=session('perm');
 $userMgr=User::VerifyPermissions($permStr,['UserMgr']);
+$articleMgr=User::VerifyPermissions($permStr,['ArticleMgr']);
+$articleCreate=User::VerifyPermissions($permStr,['ArticleCreate']);
 ?>
 
 @push('css')
@@ -82,6 +84,32 @@ $userMgr=User::VerifyPermissions($permStr,['UserMgr']);
                             </li>
                             <li>
                             <a href="{{url('admin/user/create')}}">添加用户</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endif
+                    @if($articleMgr)
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> 分类管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('admin/category/')}}">分类列表</a>
+                            </li>
+                            <li>
+                            <a href="{{url('admin/category/create')}}">添加分类</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endif
+                    @if($articleCreate)
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> 文章管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('admin/article/')}}">文章列表</a>
+                            </li>
+                            <li>
+                            <a href="{{url('admin/article/create')}}">添加文章</a>
                             </li>
                         </ul>
                     </li>

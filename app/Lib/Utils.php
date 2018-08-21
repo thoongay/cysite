@@ -4,6 +4,17 @@ namespace App\Lib;
 
 class Utils
 {
+    public static function Html2Text($html)
+    {
+        $html = new \Html2Text\Html2Text($html);
+        return $html->getText();
+    }
+
+    public static function Now()
+    {
+        return date("Y-m-d H:i:s");
+    }
+
     public static function CopyArray($dict, $fields)
     {
         $result = [];
