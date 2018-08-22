@@ -148,7 +148,10 @@ class User
         return config('app.admin.permissionLen');
     }
 
-    public static function VerifyPermission($permString, $perm)
+    #endregion
+
+    #region private method
+    private static function VerifyPermission($permString, $perm)
     {
         self::VerifyPermissionLength($permString);
         $index = self::GetPermissionIndex($perm);
@@ -157,10 +160,6 @@ class User
         }
         return false;
     }
-
-    #endregion
-
-    #region private method
 
     private static function VerifyPermissionLength($permission)
     {

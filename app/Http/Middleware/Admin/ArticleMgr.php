@@ -16,7 +16,7 @@ class ArticleMgr
      */
     public function handle($request, Closure $next)
     {
-        if (!(LibUser::VerifyPermission(session('perm'), 'ArticleMgr'))) {
+        if (!(LibUser::VerifyPermissions(session('perm'), 'ArticleMgr'))) {
             return redirect('errors/404');
         }
 

@@ -13,6 +13,15 @@ class Users extends Model
     protected $fillable = ['user', 'name', 'password', 'permission', 'token', 'tkupdate'];
 
     #region public method
+    public function GetIdByFieldUser($user)
+    {
+        $record = $this->where(['user' => $user])->first();
+        if ($record == null) {
+            return 0;
+        } else {
+            return $record->id;
+        }
+    }
 
     public function Login($user, $updateToken = false)
     {

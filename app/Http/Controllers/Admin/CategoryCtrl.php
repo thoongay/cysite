@@ -48,10 +48,6 @@ class CategoryCtrl extends Controller
             return back()->withErrors($validator);
         }
 
-        if (!$validator->passes()) {
-            return back()->withErrors($validator);
-        }
-
         $cate = $categories->firstOrNew(array('name' => $post['name']));
         $cate->description = $post['description'];
         $cate->save();

@@ -16,7 +16,7 @@ class ArticleCreate
      */
     public function handle($request, Closure $next)
     {
-        if (!(LibUser::VerifyPermission(session('perm'), 'ArticleCreate'))) {
+        if (!(LibUser::VerifyPermissions(session('perm'), 'ArticleCreate'))) {
             return redirect('errors/404');
         }
 

@@ -19,7 +19,8 @@ class CreateImagesTable extends Migration
 
             $table->string('url', 255);
             $table->string('mark', 32);
-            $table->integer('article');
+            $table->string('author', 100)->nullable();
+            $table->integer('article')->nullable();
         });
     }
 

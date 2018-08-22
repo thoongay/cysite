@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'admin.usermgr' => \App\Http\Middleware\Admin\UserMgr::class,
         'admin.articlemgr' => \App\Http\Middleware\Admin\ArticleMgr::class,
         'admin.articlecreate' => \App\Http\Middleware\Admin\ArticleCreate::class,
+        'admin.upload' => \App\Http\Middleware\Admin\UploadGuard::class,
     ];
 }

@@ -16,7 +16,7 @@ class UserMgr
      */
     public function handle($request, Closure $next)
     {
-        if (!(LibUser::VerifyPermission(session('perm'), 'UserMgr'))) {
+        if (!(LibUser::VerifyPermissions(session('perm'), 'UserMgr'))) {
             return redirect('errors/404');
         }
 

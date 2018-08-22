@@ -4,6 +4,12 @@
 use App\Lib\User as LibUser;
 ?>
 
+@push('style')
+.pagination{
+    margin:0px;
+}    
+@endpush
+
 @section('content')
 {{$data->links()}}
 <table class="table ">
@@ -28,7 +34,7 @@ use App\Lib\User as LibUser;
             <td>
                 <a href="{{url('admin/article/'.$d['id'].'/edit')}}">修改</a>
                 &nbsp;
-                <a href="javascript:;" onclick="Delete({{$d['id']}},'{{$d['name']}}');" >删除</a>
+                <a href="javascript:;" onclick="Delete({{$d['id']}},'{{$d['title']}}');" >删除</a>
             </td>
         </tr>
         @endforeach
@@ -39,8 +45,8 @@ use App\Lib\User as LibUser;
 @endsection
 
 @push('script')
-function Delete(id,name){
-    if(confirm('确定删除?\n'+id+'.'+name)){
+function Delete(id,title){
+    if(confirm('确定删除?\n'+id+'.'+title)){
         $.post('{{url("admin/article")}}/'+id,{
             '_method':'delete',
             '_token':"{{csrf_token()}}"
