@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\DB\Articles;
+use App\Model\DB\Categories;
 use App\Model\DB\Users;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,10 @@ class ArticleCtrl extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Categories $categories)
     {
-        //
+        $cates = $categories->GetCatesArray();
+        return view('admin/article/create', compact('cates'));
     }
 
     /**

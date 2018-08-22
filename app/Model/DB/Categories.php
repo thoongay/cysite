@@ -13,4 +13,14 @@ class Categories extends Model
         return $this->select(['id', 'name', 'description', 'created_at', 'updated_at'])
             ->get();
     }
+
+    public function GetCatesArray()
+    {
+        $cates = $this->GetAllCategories();
+        $result = [];
+        for ($i = 0; $i < count($cates); $i++) {
+            $result[$cates[$i]->id] = $cates[$i]->name;
+        }
+        return $result;
+    }
 }

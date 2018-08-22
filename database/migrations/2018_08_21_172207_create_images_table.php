@@ -18,6 +18,7 @@ class CreateImagesTable extends Migration
             $table->timestamps();
 
             $table->string('url', 255);
+            $table->string('mark', 32);
             $table->integer('article');
         });
     }
