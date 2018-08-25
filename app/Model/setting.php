@@ -1,5 +1,5 @@
 <?php return array (
-  'title' => 'aaaaa',
+  'title' => '我的主页',
   'MainList' => 'news',
   'FootNode' => '<input type=\'text\' value=\'abc\'>',
 );

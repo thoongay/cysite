@@ -3,7 +3,7 @@
 @endif
 
 @if($type=='textarea')
-<textarea style="width:100%;" name="{{$name}}[]" cols="30" rows="10">{{$content or ''}}</textarea>
+<textarea style="width:100%;" name="{{$name}}[]" rows="5">{{$content or ''}}</textarea>
 @endif
 
 @if($type=='checkbox')
