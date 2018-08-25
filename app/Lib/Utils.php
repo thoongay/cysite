@@ -24,6 +24,17 @@ class Utils
         return $result;
     }
 
+    public static function CopyArrayIfKeyExist($dict, $fields)
+    {
+        $result = [];
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $dict)) {
+                $result[$field] = $dict[$field];
+            }
+        }
+        return $result;
+    }
+
     public static function Log($message, $ip = null)
     {
         $log = '';

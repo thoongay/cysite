@@ -15,6 +15,9 @@ return [
         'articleTitleLength' => env('ARTICLE_TITLE_LENGTH', 255),
         'articleContentLength' => env('ARTICLE_CONTENT_LENGTH', 64000),
         'articleKeywordLength' => env('ARTICLE_KEYWORD_LENGTH', 255),
+        'settingNameLength' => env('SETTING_NAME_LENGTH', 50),
+        'settingOptionLength' => env('SETTING_OPTION_LENGTH', 100),
+        'settingFilePath' => env("SETTING_FILE_PATH", "/Model/setting.php"),
     ],
 
     /*

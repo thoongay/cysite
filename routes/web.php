@@ -56,6 +56,22 @@ Route::group([
 });
 
 Route::group([
+    'middleware' => ['admin.login', 'admin.sitemgr'],
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+], function () {
+    //显示当前网站配置
+    Route::get('setting/modify', 'SettingCtrl@ShowModifySettingPage');
+
+    // 修改当前网站配置
+    Route::post('setting/modify', 'SettingCtrl@ModifySetting');
+
+    // 添加/删除/修改站点配置
+    Route::resource('setting', 'SettingCtrl', ['except' => ['show']]);
+
+});
+
+Route::group([
     'middleware' => ['admin.login', 'admin.articlemgr'],
     'prefix' => 'admin',
     'namespace' => 'Admin',

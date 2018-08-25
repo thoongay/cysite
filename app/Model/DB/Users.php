@@ -125,9 +125,7 @@ class Users extends Model
         $admin->password = Hash::make($password);
         $admin->name = config('app.admin.name');
         $admin->permission = LibUser::GenPermissionString([
-            'UserMgr',
-            'ArticleCreate',
-            'ArticleMgr']);
+            'UserMgr', 'SiteMgr', 'ArticleCreate', 'ArticleMgr']);
 
         $admin->token = LibUser::GenToken();
         $admin->tkupdate = Utils::Now();

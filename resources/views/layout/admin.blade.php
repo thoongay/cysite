@@ -1,4 +1,4 @@
-@extends('layout.html',['title'=>'Login'])
+@extends('layout.html',['title'=>isset($pageTitle)?$pageTitle:'Admin'])
 {{-- @include('component.app') --}}
 
 <?php
@@ -7,6 +7,7 @@ $permStr=session('perm');
 $userMgr=User::VerifyPermissions($permStr,['UserMgr']);
 $articleMgr=User::VerifyPermissions($permStr,['ArticleMgr']);
 $articleCreate=User::VerifyPermissions($permStr,['ArticleCreate']);
+$siteMgr=User::VerifyPermissions($permStr,['SiteMgr']);
 ?>
 
 @push('css')
@@ -84,6 +85,22 @@ $articleCreate=User::VerifyPermissions($permStr,['ArticleCreate']);
                             </li>
                             <li>
                             <a href="{{url('admin/user/create')}}">添加用户</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endif
+                    @if($siteMgr)
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> 配置管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('admin/setting/')}}">配置列表</a>
+                            </li>
+                            <li>
+                                <a href="{{url('admin/setting/create')}}">添加配置</a>
+                            </li>
+                            <li>
+                                <a href="{{url('admin/setting/modify')}}">网站配置</a>
                             </li>
                         </ul>
                     </li>

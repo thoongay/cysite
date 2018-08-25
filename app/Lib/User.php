@@ -12,6 +12,7 @@ class User
         'UserMgr' => 0,
         'ArticleCreate' => 1,
         'ArticleMgr' => 2,
+        'SiteMgr' => 3,
     ];
     #endregion
 

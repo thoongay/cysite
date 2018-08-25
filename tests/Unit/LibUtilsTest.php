@@ -24,4 +24,12 @@ class LibUtilsTest extends TestCase
         $result = Utils::CopyArray($data, ['a', 'b']);
         $this->assertEquals($expect, $result);
     }
+
+    public function testCopyArrayIfKeyExist()
+    {
+        $expect = ['a' => 1, 'c' => 3];
+        $data = ['a' => 1, 'b' => 2, 'c' => 3];
+        $result = Utils::CopyArrayIfKeyExist($data, ['a', 'c', 'd']);
+        $this->assertEquals($expect, $result);
+    }
 }
