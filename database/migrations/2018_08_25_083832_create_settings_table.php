@@ -22,6 +22,7 @@ class CreateSettingsTable extends Migration
 
             $table->string('name', $settingNameLen);
             $table->string('type', $settingNameLen);
+            $table->string('description', $settingNameLen);
             $table->string('option', $settingOptLen)->nullable();
 
             // do not need to store in db

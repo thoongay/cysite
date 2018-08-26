@@ -46,7 +46,7 @@ class SettingCtrl extends Controller
         // 应该使用简单结构 [id,name,type,option,content]
         $data = [];
         foreach ($settings->GetAllSetting() as $setting) {
-            $d = Utils::CopyArray($setting, ['id', 'name', 'type', 'option']);
+            $d = Utils::CopyArray($setting, ['id', 'name', 'type', 'option', 'description']);
             $name = $d['name'];
             if (array_key_exists($name, $fileContent)) {
                 $d['content'] = $fileContent[$name];
@@ -101,6 +101,7 @@ class SettingCtrl extends Controller
 
         $setting = $settings->firstOrNew(['name' => $post['name']]);
         $setting->type = $post['type'];
+        $setting->description = $post['description'];
         $key = 'option';
         if (array_key_exists($key, $post)) {
             $setting[$key] = $post[$key];
@@ -133,7 +134,7 @@ class SettingCtrl extends Controller
             return redirect('admin/setting/');
         }
 
-        $data = Utils::CopyArray($setting, ['id', 'name', 'type', 'option']);
+        $data = Utils::CopyArray($setting, ['id', 'name', 'type', 'option', 'description']);
         $optionTypes = $this->GetSettingsType();
         return view('admin/setting/edit', compact('optionTypes', 'data'));
     }
@@ -165,6 +166,7 @@ class SettingCtrl extends Controller
 
         $setting->name = $post['name'];
         $setting->type = $post['type'];
+        $setting->description = $post['description'];
         $key = 'option';
         if (array_key_exists($key, $post)) {
             $setting[$key] = $post[$key];
@@ -209,12 +211,15 @@ class SettingCtrl extends Controller
         $rules = [
             'name' => "required|between:1,{$settingNameLen}",
             'type' => "required|between:1,{$settingNameLen}",
+            'description' => "required|between:1,{$settingNameLen}",
             'option' => "nullable|between:2,{$settingOptLen}",
         ];
 
         $errors = [
             'name.required' => '名字不能为空',
             'name.between' => "名字应为1-{$settingNameLen}位之间",
+            'description.required' => '描述不能为空',
+            'description.between' => "描述应为1-{$settingNameLen}位之间",
             'type.required' => '类型不能为空',
             'type.between' => "类型应为1-{$settingNameLen}位之间",
             'option.between' => "选项应为2-{$settingOptLen}位之间",

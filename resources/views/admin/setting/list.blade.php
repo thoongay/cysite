@@ -15,6 +15,7 @@ use App\Lib\User as LibUser;
     <tr>
         <th>ID</th>
         <th>名称</th>
+        <th>描述</th>
         <th>类型</th>
         <th>操作</th>
     </tr>
@@ -23,6 +24,7 @@ use App\Lib\User as LibUser;
         <tr>
             <td>{{$d['id']}}</td>
             <td>{{$d['name']}}</td>
+            <td>{{$d['description']}}</td>
             <td>{{$d['type']}}</td>
             <td>
                 <a href="{{url('admin/setting/'.$d['id'].'/edit')}}">修改</a>

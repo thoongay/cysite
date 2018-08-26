@@ -25,6 +25,10 @@ function SelectChanged(obj){
             <td><input type="text" name="name" ></td>
         </tr>
         <tr>
+            <td>描述</td>
+            <td><input type="text" name="description" ></td>
+        </tr>
+        <tr>
             <td>类型</td>
             <td><select name="type" onchange="SelectChanged(this);">
                 @foreach($optionTypes as $type)

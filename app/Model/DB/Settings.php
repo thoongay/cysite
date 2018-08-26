@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Settings extends Model
 {
-    protected $fillable = ['name', 'options', 'type', 'content'];
+    protected $fillable = ['name', 'options', 'type', 'content', 'description'];
 
     #region public method
     public function GetSettingByFieldID($id)
@@ -16,7 +16,7 @@ class Settings extends Model
 
     public function GetAllSetting()
     {
-        return $this->select(['id', 'name', 'type', 'option'])->get();
+        return $this->select(['id', 'name', 'type', 'option', 'description'])->get();
     }
     #endregion
 }

@@ -26,6 +26,10 @@ SelectChanged($('[name="type"]'));
             <td><input type="text" name="name" value="{{$data['name']}}"></td>
         </tr>
         <tr>
+            <td>描述</td>
+            <td><input type="text" name="description" value="{{$data['description']}}"></td>
+        </tr>
+        <tr>
             <td>类型</td>
             <td><select name="type" onchange="SelectChanged(this);">
                 @foreach($optionTypes as $type)

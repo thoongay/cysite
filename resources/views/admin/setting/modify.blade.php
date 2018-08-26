@@ -11,11 +11,13 @@ use App\Lib\User as LibUser;
     <table class="table ">
         <tr>
             <th>配置名</th>
+            <th>描述</th>
             <th>内容</th>
         </tr>
         @foreach($data as $d)
         <tr>
             <td>{{$d['name']}}</td>
+            <td>{{$d['description']}}</td>
             <td>@include('component.setting',[
                 'type'=>$d['type'],
                 'name' =>$d['name'],
