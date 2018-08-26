@@ -18,20 +18,21 @@
 </div>
 
 @push('style')
-.nav-div-page-title{
-    display:inline-block;
-    float: left;
-    font-size: 20px;
-    padding: 5px 5px;
-}
 .nav-div-main{
     margin:0 auto;
     max-width:960px;
     min-height:30px;
 }
 
+.nav-div-page-title{
+    display:inline-block;
+    float: left;
+    font-size: 20px;
+    padding: 5px 5px;
+}
+
 nav{
-    background: #333;    
+    background: #eee;    
 }
 
 nav ul{
@@ -45,10 +46,9 @@ nav ul li{
 
 nav a{
     text-decoration: none;
-    color: #fff;
+    {{-- color: #fff; --}}
     display: block;
     padding: 10px;
-    display: block;
 }
 
 .nav-open{
