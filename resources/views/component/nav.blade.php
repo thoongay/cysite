@@ -1,18 +1,35 @@
-<nav>
-    <!-- this svg is download from :https://www.iconfinder.com/icons/134216/hamburger_lines_menu_icon -->
-    <!-- this svg is create by: Timothy Miller -->
-    <a class="burger-nav"></a>
-    <ul>
-        <li><a href='#'>Home</a></li>
-        @foreach($cates as $cate)
-            <li><a href='#'>{{$cate}}</a></li>
-        @endforeach
-        <li><a href='#'>About</a></li>
-
-    </ul>
-</nav>
+<div class="nav-div-main">
+    <nav>
+        <div class="nav-div-burger show-on-phone">
+            <!-- this svg is download from :https://www.iconfinder.com/icons/134216/hamburger_lines_menu_icon -->
+            <!-- this svg is create by: Timothy Miller -->
+            <div class="nav-div-page-title">{{$pageTitle}}</div><a class="nav-burger"></a>
+        </div>
+        <div class="nav-category hide-on-phone">
+            <ul>
+                <li ><a href='#'>主页</a></li>
+                @foreach($cates as $cate)
+                    <li><a href='#'>{{$cate}}</a></li>
+                @endforeach
+                <li><a href='#'>关于</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
 
 @push('style')
+.nav-div-page-title{
+    display:inline-block;
+    float: left;
+    font-size: 20px;
+    padding: 5px 5px;
+}
+.nav-div-main{
+    margin:0 auto;
+    max-width:960px;
+    min-height:30px;
+}
+
 nav{
     background: #333;    
 }
@@ -34,30 +51,22 @@ nav a{
     display: block;
 }
 
-
 .nav-open{
     display: block;
 }
 
-.burger-nav{
-    display: none;
-    padding: 0px;
-    background-color: #333;
+.nav-div-burger{
+    background-color: #eee;
+    width:100%;
 }
 
-@media screen and (max-width: 400px){
-    .burger-nav{
-        display: block;
-        height: 40px;
-        width:100%;
-        background: url(../img/burger.svg) no-repeat 98% center;
-        background-color: white;
-    }
+.nav-burger{
+    padding: 0px;
+    height: 40px;
+    background: url(../img/burger.svg) no-repeat 98% center;
+}
 
-    nav ul{
-        display: none;
-    }
-
+@media screen and (max-width: 415px){
     nav ul li{
         display: list-item;
         text-align:center;
@@ -68,8 +77,8 @@ nav a{
 
 @push('script')
     $(document).ready(function(){
-        $('.burger-nav').on("click",function(){
-            $("nav ul").toggleClass("nav-open");
+        $('.nav-burger').on("click",function(){
+            $(".nav-category").toggleClass("nav-open");
         });
     });
 @endpush

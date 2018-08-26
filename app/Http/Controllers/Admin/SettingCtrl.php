@@ -30,18 +30,13 @@ class SettingCtrl extends Controller
             $setting[$name] = implode(",", $conents);
         }
 
-        $filename = app_path() . config('app.admin.settingFilePath');
-        file_put_contents($filename, '<?php return ' . var_export($setting, true) . ';');
+        Utils::ExportArrayToFile(Utils::GetSettingPath(), $setting);
         return redirect('admin/setting/modify');
     }
 
     public function ShowModifySettingPage(Settings $settings)
     {
-        $fileContent = [];
-        $filename = app_path() . config('app.admin.settingFilePath');
-        if (file_exists($filename)) {
-            $fileContent = include $filename;
-        }
+        $fileContent = Utils::GetSettingContent();
 
         // 应该使用简单结构 [id,name,type,option,content]
         $data = [];

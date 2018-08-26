@@ -1,15 +1,28 @@
 <?php
-$filename = app_path() . config('app.admin.settingFilePath');
-$setFile=[];
-if (file_exists($filename)) {
-    $setFile = include $filename;
-}
+use App\Lib\Utils;
+
+$setting=Utils::GetSettingContent();
+
+$GetSetting = function($key, $default) use ($setting)
+{
+    return Utils::GetValue($key,$setting,$default);
+};
+
+// function GetSetting($key,$default) use ($setting){
+//     return Utils::GetValue($key,$setting,$default);
+// }
+
+$cateString=$GetSetting('HomeCates',$setting,false);
+$cates=$cateString?explode(',',$cateString):[];
+$pageTitle=$GetSetting('PageTitle','木有标题');
 ?>
 
-@extends('layout.index',['pageTitle'=>array_key_exists('title',$setFile)?$setFile['title']:'主页'])
+@extends('layout.index',['tagTitle'=>$GetSetting('TagTitle','欢迎访问 - 主页')])
 
 @section('body')
-<div class="wrapper">
-    @include('component.nav',['cates'=>['news','info','pricing']])
-</div>
+    @include('component.header',['pageTitle'=>$pageTitle])
+    @include('component.nav',['cates'=>$cates,'pageTitle'=>$pageTitle])
 @endsection
+
+@push('style')
+@endpush

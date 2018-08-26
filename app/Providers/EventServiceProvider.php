@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'Overtrue\LaravelUEditor\Events\Uploaded' => [
             '\App\Listeners\UEditorUploaded',
         ],
+        'App\Events\ArticleUpdated' => [
+            'App\Listeners\ArticleUpdateListener',
+        ],
     ];
 
     /**

@@ -12,9 +12,13 @@ return [
         'tokenUpdateTime' => env('TOKEN_UPDATE_TIME', 60 * 12),
         'cateNameLength' => env('CATE_NAME_LENGTH', 50),
         'cateDscrLength' => env('CATE_DSCR_LENGTH', 100),
+
         'articleTitleLength' => env('ARTICLE_TITLE_LENGTH', 255),
         'articleContentLength' => env('ARTICLE_CONTENT_LENGTH', 64000),
         'articleKeywordLength' => env('ARTICLE_KEYWORD_LENGTH', 255),
+        'articleCacheSize' => env('ARTICLE_CACHE_SIZE', 5),
+        'articleCachePath' => env('ARTICLE_CACHE_PATH', "/Model/ArticleCache.php"),
+
         'settingNameLength' => env('SETTING_NAME_LENGTH', 50),
         'settingOptionLength' => env('SETTING_OPTION_LENGTH', 100),
         'settingFilePath' => env("SETTING_FILE_PATH", "/Model/setting.php"),

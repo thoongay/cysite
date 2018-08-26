@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ArticleUpdated;
 use App\Http\Controllers\Controller;
 use App\Lib\User as LibUser;
 use App\Lib\Utils;
@@ -74,6 +75,9 @@ class ArticleCtrl extends Controller
 
         // connect uploaded images to articles
         $images->Connect($mark, $id);
+
+        // update article
+        event(new ArticleUpdated());
 
         return redirect('admin/article');
     }
@@ -153,6 +157,9 @@ class ArticleCtrl extends Controller
         // connect uploaded images to articles
         $images->Connect($mark, $id);
 
+        // update article
+        event(new ArticleUpdated());
+
         return redirect('admin/article');
     }
 
@@ -179,6 +186,9 @@ class ArticleCtrl extends Controller
         }
 
         $images->Disconnect($id);
+
+        // update article
+        event(new ArticleUpdated());
 
         return $msg;
     }

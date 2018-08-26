@@ -4,6 +4,49 @@ namespace App\Lib;
 
 class Utils
 {
+    public static function GetValue($key, $arr, $default)
+    {
+        if (!array_key_exists($key, $arr)) {
+            return $default;
+        }
+        return $arr[$key];
+    }
+
+    public static function ExportArrayToFile($filename, $data)
+    {
+        file_put_contents($filename, '<?php return ' . var_export($data, true) . ';');
+    }
+
+    public static function GetArticleCachePath()
+    {
+        return app_path() . config('app.admin.articleCachePath');
+    }
+
+    public static function GetArticleCacheContent()
+    {
+        $fileContent = [];
+        $filename = self::GetArticleCachePath();
+        if (file_exists($filename)) {
+            $fileContent = include $filename;
+        }
+        return $fileContent;
+    }
+
+    public static function GetSettingContent()
+    {
+        $fileContent = [];
+        $filename = self::GetSettingPath();
+        if (file_exists($filename)) {
+            $fileContent = include $filename;
+        }
+        return $fileContent;
+    }
+
+    public static function GetSettingPath()
+    {
+        return app_path() . config('app.admin.settingFilePath');
+    }
+
     public static function Html2Text($html)
     {
         $html = new \Html2Text\Html2Text($html);
