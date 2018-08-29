@@ -27,10 +27,10 @@ class ArticleUpdateListener
      */
     public function handle(ArticleUpdated $event)
     {
-        $setKey = 'HomeCates';
+        $setKey = 'ShowCates';
         $setting = Utils::GetSettingContent();
         if (!array_key_exists($setKey, $setting)) {
-            Utils::Log('Error: 没有HomeCates设置，无法更新文章缓存。');
+            Utils::Log('Error: 没有ShowCates设置，无法更新文章缓存。');
             return;
         }
         $keys = explode(',', $setting[$setKey]);

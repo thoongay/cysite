@@ -32,6 +32,54 @@ class Utils
         return $fileContent;
     }
 
+    public static function Str2Arr($string, $separator = ",")
+    {
+        if ($string) {
+            return preg_split('/' . $separator . '/', $string, null, PREG_SPLIT_NO_EMPTY);
+        }
+        return [];
+    }
+
+    public static function GetSettingHelper()
+    {
+        $setting = self::GetSettingContent();
+        return function ($key, $default) use ($setting) {
+            return self::GetValue($key, $setting, $default);
+        };
+    }
+
+    public static function GetPublishPath()
+    {
+        return app_path() . config('app.admin.settingPublishPath');
+    }
+
+    public static function GetPHPFileContent($filename)
+    {
+        $fileContent = [];
+        if (file_exists($filename)) {
+            $fileContent = include $filename;
+        }
+        return $fileContent;
+    }
+
+    public static function GetPublishDateFromSetting()
+    {
+        $settings = self::GetSettingContent();
+
+        // GetValue($key, $arr, $default)
+        $partsName = self::Str2Arr(self::GetValue('IndexComponents', $settings, false));
+
+        $partsArr = [];
+        foreach ($partsName as $key) {
+            // replace this with publish.php in real index page
+            if (array_key_exists($key, $settings)) {
+                $partsArr[$key] = $settings[$key];
+            }
+        }
+
+        return $partsArr;
+    }
+
     public static function GetSettingContent()
     {
         $fileContent = [];

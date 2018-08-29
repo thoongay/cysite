@@ -11,30 +11,48 @@ class Articles extends Model
     public function GetRecentArticles($cateNames, $cateArray)
     {
         $cache = [];
-        foreach ($cateNames as $cateName) {
-            $cache[$cateName] = [];
-            $cateID = array_search($cateName, $cateArray);
-            if ($cateID) {
-                $articles = $this->select(['id', 'title', 'created_at'])
-                    ->where(['category' => $cateID])
-                    ->latest()
-                    ->take(config('app.admin.articleCacheSize'))
-                    ->get();
 
-                foreach ($articles as $article) {
-                    $cache[$cateName][] = [
-                        'id' => $article->id,
-                        'title' => $article->title,
-                        'create' => $article->created_at->timestamp,
-                    ];
-                }
+        // cateName to cateID
+        $cateIDs = [];
+        foreach ($cateNames as $cateName) {
+            $id = array_search($cateName, $cateArray);
+            if ($id) {
+                $cateIDs[] = $id;
             }
         }
+
+        $articles = $this->select(['id', 'title', 'created_at'])
+            ->whereIn('category', $cateIDs)
+            ->latest()
+            ->take(config('app.admin.articleCacheSize'))
+            ->get();
+
+        foreach ($articles as $article) {
+            $cache[] = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'create' => $article->created_at->timestamp,
+            ];
+        }
+
         return $cache;
     }
 
-    public function GetAllArticles()
+    public function GetArticleTitlesByCateName($cateName, $cateArray, $pageSize = 10)
     {
-        return $this->orderBy('id', 'desc')->paginate(10);
+        $id = array_search($cateName, $cateArray);
+        if (!$id) {
+            return null;
+        }
+
+        return $this->select(['id', 'title', 'created_at'])
+            ->where('category', $id)
+            ->orderBy('id', 'desc')
+            ->paginate($pageSize);
+    }
+
+    public function GetAllArticles($pageSize = 10)
+    {
+        return $this->orderBy('id', 'desc')->paginate($pageSize);
     }
 }

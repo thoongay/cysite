@@ -1,61 +1,57 @@
-<div class="header-div-main">
+<!-- 本页面的回到顶部代码复制自以下网址 -->
+<!-- https://www.w3schools.com/howto/howto_js_scroll_to_top.asp -->
 
+<div class="header-div-main">
     <div class="header-div-left">
         <div class="header-title">{{$pageTitle}}</div>
     </div>
-
     <div class="header-div-right">
-        {{-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> --}}
-        <div class="header-contect hide-on-phone">
-            <img src="img/smartphone.svg" alt="电话"" class="social-icon vcenter">
-            <span class="vcenter social-text">{{$phoneNumber}}</span>
-            <img src="img/wechat.svg" alt="电话"" class="social-icon vcenter">
-            <span class="vcenter social-text">{{$wechatNumber}}</span>
+        <div class="nav-div-main hide-on-phone">
+           @include('component.nav')
         </div>
-
         <div class="show-on-phone">
             <!-- this svg is download from :https://www.iconfinder.com/icons/134216/hamburger_lines_menu_icon -->
             <!-- this svg is create by: Timothy Miller -->
             <a class="nav-burger"></a>
         </div>
-
-        <div class="nav-div-main hide-on-phone" id="nav-menu">
-            <nav >
-                <ul>
-                    <li><a href='#'>主页</a></li>
-                    <li><a href='#'>服务项目</a></li>
-                    <li><a href='#'>联系方式</a></li>
-                    <li><a href='#'>关于</a></li>
-                </ul>
-            </nav>
-        </div>
     </div>
 </div>
+<div class="nav-div-phone show-on-phone nav-close" id="nav-menu">
+    @include('component.nav')
+</div>
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
 @push('style')
-.header-contect{
-    padding: 5px 10px 5px 10px;
-    font-size:12px;
-    color:#777;
-    text-align: right;
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: darkcyan; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
 }
 
-.social-text{
-    font-size:14px;
-}
-
-.social-icon{
-    height:13px;
+#myBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
 }
 
 .nav-open{
     display: block;
-    width:100%;
+}
+
+.nav-close{
+    display:none;
 }
 
 .nav-div-main{
-    float:right;
-    margin-right:10px;
+    display: block;
 }
 
 nav ul{
@@ -65,68 +61,77 @@ nav ul{
 
 nav ul li{
     display: inline-block;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    margin-bottom: 4px;
 }
 
 nav a{
     text-decoration: none;
     display: block;
+    font-size: 15px;
+    color: darkcyan;
+    font-weight:bold;
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .nav-burger{
-    display:block;
     padding: 0px;
-    height: 40px;
+    display:block;
+    width:40px;
+    height:40px;
     background: url(../img/burger.svg) no-repeat 98% center;
 }
 
 .header-div-main{
-    display: table; 
-    overflow: hidden;
+    box-shadow: 0px 1px 5px lightgrey;
+    top:0px;
+    position: fixed;
+    display: flex; 
     width:100%;
     background-color:#eee;
 }
 
-.header-div-content{
-    margin:0 auto;
-    display: table-cell; 
-    vertical-align: middle;
-    background-color:blue;
+.header-div-left{
+    width:100%;
+}
+
+.header-div-right{
+    width:300px;
+    flex-shrink:0;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }
 
 .header-title{
     font-size:24px;
     float:left;
-    padding:10px;
-    margin: 0 18px;
+    padding:8px 10px 8px 20px;
+}
+
+.nav-div-phone{
+    position: fixed;
+    width: 100%;
 }
 
 @media screen and (max-width: 465px){
-    nav{
-        clear:both;
+    .nav-div-main{
+        display:none;
+    }
+    .header-div-right{
+        width:50px;
     }
 
-    nav ul{
-        background-color:#555;
-    }
-
-    nav ul li a{
-        color:#fff;
-    }
-
-    nav ul li{
+    .nav-div-phone nav ul li{
         display: block;
         border:none;
         padding: 8px;
         text-align:center;
         border-bottom: 1px solid gray;
+        background-color:#555;
     }
-    .nav-div-main{
-        margin:0;
+
+    .nav-div-phone nav ul li a{
+        color:#fff;
     }
 }
 
@@ -135,7 +140,25 @@ nav a{
 @push('script')
     $(document).ready(function(){
         $('.nav-burger').on("click",function(){
-            $("#nav-menu").toggleClass("nav-open");
+            $("#nav-menu").toggleClass("nav-close");
         });
+
+       
     });
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
 @endpush

@@ -7,6 +7,25 @@ use Tests\TestCase;
 
 class LibUtilsTest extends TestCase
 {
+    public function testStr2Arr()
+    {
+        $strings = [
+            "a,b",
+            "a,,,,b,,,,,c",
+            "",
+        ];
+
+        $expects = [
+            ["a", "b"],
+            ["a", "b", "c"],
+            [],
+        ];
+
+        for ($i = 0; $i < count($expects); $i++) {
+            $this->assertEquals($expects[$i], Utils::Str2Arr($strings[$i]));
+        }
+    }
+
     public function testHtml2Text()
     {
         $htmls = ['<a>hello,</a><b>world!</b>'];

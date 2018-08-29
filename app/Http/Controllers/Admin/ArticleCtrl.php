@@ -88,9 +88,19 @@ class ArticleCtrl extends Controller
      * @param  \App\Model\DB\Articles  $articles
      * @return \Illuminate\Http\Response
      */
-    public function show(Articles $articles)
+    public function show(Articles $articles, Users $users, $id)
     {
-        //
+        $article = $articles->where(['id' => $id])->first();
+        if ($article == null) {
+            return view('errors/404');
+        }
+
+        $title = $article->title;
+        $content = $article->content;
+        $author = $users->GetNameByID($article->author, "");
+        $create = $article->created_at->timestamp;
+
+        return view('index/article', compact('content', 'author', 'title', 'create'));
     }
 
     /**

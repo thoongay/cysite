@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Lib\Utils;
+use App\Model\DB\Articles;
 use App\Model\DB\Categories;
 use Illuminate\Http\Request;
 use Validator;
@@ -60,9 +61,11 @@ class CategoryCtrl extends Controller
      * @param  \App\Model\DB\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function show(Categories $categories)
+    public function show(Categories $categories, Articles $articles, $cateName)
     {
-        //
+        $cateArray = $categories->GetCatesArray();
+        $data = $articles->GetArticleTitlesByCateName($cateName, $cateArray, $pageSize = 10);
+        return view('index/category', compact('data', 'cateName'));
     }
 
     /**

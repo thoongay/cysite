@@ -28,8 +28,21 @@ use App\Lib\User as LibUser;
         <tr>
             <td colspan="2">
                 <button type="submit" class="btn btn-primary">提交</button>
+                <input type="button" value="发布" onclick="publish()" class="btn btn-warning">
             </td>
         </tr>     
     </table>
 </form>
 @endsection
+
+@push('script')
+function publish(){
+    if(confirm('确定发布?')){
+        $.post('{{url("admin/setting/publish")}}',{
+            '_token':"{{csrf_token()}}"
+        },function(data){
+            alert(data.msg);
+        });
+    }
+}
+@endpush

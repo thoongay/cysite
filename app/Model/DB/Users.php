@@ -79,6 +79,15 @@ class Users extends Model
         $this->create($user);
     }
 
+    public function GetNameByID($id, $default = false)
+    {
+        $user = $this->where(['id' => $id])->first();
+        if ($user == null) {
+            return $default;
+        }
+        return $user->name;
+    }
+
     public function GetAllUsersName()
     {
         $users = $this->select(['id', 'name'])->get();

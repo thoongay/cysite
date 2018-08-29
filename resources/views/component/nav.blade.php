@@ -1,84 +1,18 @@
-<div class="nav-div-main">
-    <nav>
-        <div class="nav-div-burger show-on-phone">
-            <!-- this svg is download from :https://www.iconfinder.com/icons/134216/hamburger_lines_menu_icon -->
-            <!-- this svg is create by: Timothy Miller -->
-            <div class="nav-div-page-title">{{$pageTitle}}</div><a class="nav-burger"></a>
-        </div>
-        <div class="nav-category hide-on-phone">
-            <ul>
-                <li ><a href='#'>主页</a></li>
-                @foreach($cates as $cate)
-                    <li><a href='#'>{{$cate}}</a></li>
-                @endforeach
-                <li><a href='#'>关于</a></li>
-            </ul>
-        </div>
-    </nav>
-</div>
+<?php
 
-@push('style')
-.nav-div-main{
-    margin:0 auto;
-    max-width:960px;
-    min-height:30px;
-}
+use App\Lib\Utils;
 
-.nav-div-page-title{
-    display:inline-block;
-    float: left;
-    font-size: 20px;
-    padding: 5px 5px;
-}
+$GetSetting = Utils::GetSettingHelper();
+$navCates=Utils::Str2Arr($GetSetting('NavCates',false));
 
-nav{
-    background: #eee;    
-}
-
-nav ul{
-    list-style-type: none;
-    padding: 0;
-}
-
-nav ul li{
-    display: inline-block;
-}
-
-nav a{
-    text-decoration: none;
-    {{-- color: #fff; --}}
-    display: block;
-    padding: 10px;
-}
-
-.nav-open{
-    display: block;
-}
-
-.nav-div-burger{
-    background-color: #eee;
-    width:100%;
-}
-
-.nav-burger{
-    padding: 0px;
-    height: 40px;
-    background: url(../img/burger.svg) no-repeat 98% center;
-}
-
-@media screen and (max-width: 415px){
-    nav ul li{
-        display: list-item;
-        text-align:center;
-        border-bottom: 1px solid gray;
-    }
-}
-@endpush
-
-@push('script')
-    $(document).ready(function(){
-        $('.nav-burger').on("click",function(){
-            $(".nav-category").toggleClass("nav-open");
-        });
-    });
-@endpush
+?>
+<nav >
+    <ul>
+        <li><a href='{{url("/")."#header"}}'>主页</a></li>
+        <li><a href='{{url("/")."#services"}}'>服务项目</a></li>
+        @foreach($navCates as $cate)
+            <li><a href='{{url('category/'.$cate)}}'>{{$cate}}</a></li>
+        @endforeach
+        <li><a href='{{url("/")."#about"}}'>关于</a></li>
+    </ul>
+</nav>

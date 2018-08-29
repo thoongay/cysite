@@ -1,12 +1,4 @@
 <?php return array (
-  'PageTitle' => 'XXXX主页',
-  'ShowCates' => '新闻,公告',
-  'FootNode' => '<input type=\'text\' value=\'abc\'>',
-  'TagTitle' => '欢迎访问 - xxxx主页',
-  'ContactMethods' => 'QQ:123456789,电话:123-1234-1234,邮件:email@email.com,地址:广东省广州市黄浦黄沙解放路123幢1层1号',
-  'RecentArticleNum' => '10',
-  'NavCates' => '新闻,公告',
-  'IndexComponents' => 'IndexAbout,IndexServices,IndexQnA',
   'IndexAbout' => '<div class="index-component-div">
         <style>
             .about-ul{

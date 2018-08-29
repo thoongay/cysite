@@ -20,6 +20,20 @@ class SettingCtrl extends Controller
 
     #region public method
 
+    public function Publish(Request $request)
+    {
+        $ip = $request->ip();
+
+        Utils::ExportArrayToFile(
+            Utils::GetPublishPath(),
+            Utils::GetPublishDateFromSetting());
+
+        $msg = ['status' => true, 'msg' => '发布成功'];
+        Utils::Log("发布配置成功", $ip);
+
+        return $msg;
+    }
+
     // page for setting content
     public function ModifySetting(Request $request)
     {

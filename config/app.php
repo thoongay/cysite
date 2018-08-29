@@ -22,6 +22,7 @@ return [
         'settingNameLength' => env('SETTING_NAME_LENGTH', 50),
         'settingOptionLength' => env('SETTING_OPTION_LENGTH', 100),
         'settingFilePath' => env("SETTING_FILE_PATH", "/Model/setting.php"),
+        'settingPublishPath' => env("SETTING_PUBLISH_PATH", "/Model/publish.php"),
     ],
 
     /*

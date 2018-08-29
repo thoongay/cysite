@@ -2,7 +2,12 @@
 
 @push('js')
 <script src="{{asset('js/jquery.min.js')}}"></script>
+{{-- <script src="{{asset('js/bootstrap.min.js')}}"></script> --}}
 <script src="{{asset('js/modernizr-custom.js')}}"></script>
+@endpush
+
+@push('css')
+    {{-- <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> --}}
 @endpush
 
 @push('css-var')
@@ -12,6 +17,13 @@
 
 .flex-container{
     display:flex;
+}
+
+.clearer{
+    height:1px;
+    overflow:hidden;
+    clear:both;
+    margin-top:-1px;
 }
 
 .vcenter{
@@ -26,6 +38,14 @@
     display:none;
 }
 
+.hide-on-tablet{
+    display:block;
+}
+
+.show-on-tablet{
+    display:none;
+}
+
 @media screen and (max-width: 465px){
     
     .hide-on-phone{
@@ -33,6 +53,17 @@
     }
 
     .show-on-phone{
+        display:block;
+    }
+}
+
+@media screen and (max-width: 650px){
+    
+    .hide-on-tablet{
+        display:none;
+    }
+
+    .show-on-tablet{
         display:block;
     }
 }
@@ -44,6 +75,7 @@
 }
 
 body{
+    font-size:14px;
     background: #fff;
     font-family: sans-serif;
 }

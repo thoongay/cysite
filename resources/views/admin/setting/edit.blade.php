@@ -34,10 +34,8 @@ SelectChanged($('[name="type"]'));
             <td><select name="type" onchange="SelectChanged(this);">
                 @foreach($optionTypes as $type)
                     <option value="{{$type}}" 
-                        @if(isset($optionType))
-                            @if($data['type']==$type)
-                                selected
-                            @endif
+                        @if($data['type']===$type)
+                            selected="selected"    
                         @endif
                     >{{$type}}</option> 
                 @endforeach

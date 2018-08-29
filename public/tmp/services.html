@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+         *{
+            margin: 0;
+        }
+
+        body{
+            font-size:14px;
+            background: #fff;
+            font-family: sans-serif;
+        }
+
+        .index-component-div{
+            display:block;
+            padding:16px;
+        }
+
+        .index-component-title{
+            font-size:24px;
+            color:gray;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-bottom: 1px solid lightgray;
+        }
+
+        .index-component-content-div{
+            padding:20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="index-component-div" style="background-color: #eee;">
+        <style>
+            .services-flex-container{
+                display:flex;
+                flex-wrap:wrap;
+            }
+
+            .service-div{
+                min-width:200px;
+                max-width:350px;
+                height: 250px;
+                margin-right:15px;
+                margin-bottom:15px;
+                background-color: white;
+                box-shadow: 5px 5px 5px darkgrey;
+            }
+
+            .service-title{
+                font-size:24px;
+            }
+
+            .service-content{
+                font-size:16px;
+            }
+
+        </style>
+        <div class="anchor"><a id="services"></a></div>
+        <span class="index-component-title">服务项目</span>
+        <div class="index-component-content-div services-flex-container">
+            <div class="service-div">
+                <p class="service-title">服务1</p>
+                <p class="service-content">这个服务的详细描述</p>
+            </div>
+            <div class="service-div">
+                <p class="service-title">服务2</p>
+                <p class="service-content">这个服务的详细描述</p>
+            </div>
+            <div class="service-div">
+                <p class="service-title">服务3</p>
+                <p class="service-content">这个服务的详细描述</p>
+            </div>
+            <div class="service-div">
+                <p class="service-title">服务4</p>
+                <p class="service-content">这个服务的详细描述</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -12,8 +12,12 @@
  */
 
 Route::get('/', function () {
-    return view('index/home');
+    return view('index/index');
 });
+
+Route::get('/article/{id}', 'Admin\ArticleCtrl@show');
+Route::get('/category/{name}', 'Admin\CategoryCtrl@show');
+Route::get('/test', 'Admin\IndexCtrl@ShowTestPage');
 
 Route::group([
     'prefix' => 'admin',
@@ -60,6 +64,9 @@ Route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
 ], function () {
+    //发布修改
+    Route::post('setting/publish', 'SettingCtrl@Publish');
+
     //显示当前网站配置
     Route::get('setting/modify', 'SettingCtrl@ShowModifySettingPage');
 
@@ -79,11 +86,6 @@ Route::group([
 
     // 添加/删除文章分类
     Route::resource('category', 'CategoryCtrl', ['except' => ['show']]);
-
-    // Route::post('upload', 'Upload@upload');
-
-    // Route::resource('article', 'Article');
-    // Route::resource('links', 'Links');
 });
 
 Route::group([
@@ -93,10 +95,5 @@ Route::group([
 ], function () {
 
     // 添加/删除文章分类
-    Route::resource('article', 'ArticleCtrl');
-
-    // Route::post('upload', 'Upload@upload');
-
-    // Route::resource('article', 'Article');
-    // Route::resource('links', 'Links');
+    Route::resource('article', 'ArticleCtrl', ['except' => 'show']);
 });
